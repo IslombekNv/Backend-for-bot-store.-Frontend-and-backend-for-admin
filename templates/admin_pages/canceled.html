@@ -1,0 +1,126 @@
+{% extends 'layouts/admin_base.html' %}
+{% block extra_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+        body {
+            background-color: #eee;
+            font-family: 'Roboto', sans-serif
+        }
+
+        .main {
+            border-collapse: separate !important;
+            border-spacing: 0 11px !important
+        }
+
+        tr {
+            border: 1px solid #eee
+        }
+
+        .head th {
+            font-weight: 500
+        }
+
+        tr:nth-child(3) {
+            border: solid thin
+        }
+
+        .form-check-input:focus {
+            border-color: #8bbafe;
+            outline: 0;
+            box-shadow: none
+        }
+
+        .btn {
+            height: 27px;
+            line-height: 11px;
+            color: #fff
+        }
+
+        .form-check-input {
+            width: 1.15em;
+            height: 1.15em;
+            margin-top: 3px
+        }
+
+        .btn:focus {
+            color: #fff;
+            box-shadow: none !important
+        }
+
+        .order-color {
+            color: blue
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid h-100">
+        <table class="table table-borderless main shadow-lg p-3 mb-5 bg-white rounded">
+            <thead>
+            <tr class="head">
+                <th scope="col" class="ml-2">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" value=""
+                                                   id="flexCheckDefault"></div>
+                </th>
+                <th scope="col">Order ID</th>
+                <th scope="col">Created</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Status</th>
+                <th scope="col">Price</th>
+                <th scope="col">Product</th>
+                <th scope="col">Number</th>
+                <th scope="col">Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in object_list %}
+                <tr class="rounded bg-white">
+                    <th scope="row">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" value=""
+                                                       id="flexCheckDefault"></div>
+                    </th>
+                    <td class="order-color">#UB{{ order.id }}</td>
+                    <td>{{ order.created_at|date:'M Y, H:m' }}</td>
+                    <td class="d-flex align-items-center"><span class="ml-2">{{ order.user|slice:":9" }}</span>
+                    </td>
+                    <td>
+                        {% if order.order == 'Processing' %}
+                            <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-expanded="false"> Processing
+                            </button>
+                        {% elif order.order == 'Confirmed' %}
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-expanded="false"> Confirmed
+                            </button>
+                        {% elif order.order == 'Performing' %}
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-expanded="false"> Performing
+                            </button>
+                        {% elif order.order == 'Performed' %}
+                            <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-expanded="false"> Performed
+                            </button>
+                        {% elif order.order == 'Canceled' %}
+                            <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-expanded="false"> Canceled
+                            </button>
+                        {% else %}
+                            <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-expanded="false"> Processing
+                            </button>
+                        {% endif %}
+                    </td>
+                    <td>${{ order.price }}</td>
+                    <td>{{ order.product }}</td>
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.address }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'layouts/base.html' %}
+{% load widget_tweaks %}
+
+{% block extra_css %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="offset-2 col-7">
+                <form method="POST" action="{% url 'service:create'%}">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    <div class="form-group">
+                        {{ form.title.label }}: {{ form.title|add_class:'form-control' }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.price.label }}: {{ form.price|add_class:'form-control' }}
+                    </div>
+                    <div class="frm-group col-12 text-center">
+                        <button class="btn bg-primary text-white" type="submit">CREATE POST<i
+                                class="fa fa-arrow-right"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+
+
+{% block extra_js %}
+{% endblock %}
